@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+require("dotenv").config();
 router.get("/webhook", (req, res) => {
-  let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>";
+  let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
