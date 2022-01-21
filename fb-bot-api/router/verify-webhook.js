@@ -29,7 +29,7 @@ router.post("/webhook", async (req, res) => {
     for (let i = 0; i < body.entry.length; i++) {
       let webhook_event = body.entry[i].messaging[0];
       if (webhook_event.message.text !== undefined) {
-        handleText(webhook_event.message.text);
+        handleText(webhook_event.message.text); //處理文字訊息
       } else {
         console.log("attachments type");
       }
