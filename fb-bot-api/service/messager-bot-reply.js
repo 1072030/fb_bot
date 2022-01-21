@@ -1,3 +1,4 @@
+const fetch = require("node-fetch");
 const replyMessager = async (body) => {
   const data = await fetch(
     `https://graph.facebook.com/v2.6/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
