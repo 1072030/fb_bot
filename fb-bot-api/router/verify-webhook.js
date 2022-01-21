@@ -1,4 +1,5 @@
 const express = require("express");
+const { handleText } = require("../handleEvent/handleText");
 const router = express.Router();
 const { replyMessager } = require("../service/messager-bot-reply");
 require("dotenv").config();
@@ -19,20 +20,20 @@ router.get("/webhook", (req, res) => {
 router.post("/webhook", async (req, res) => {
   let body = req.body;
   console.log("body", body);
-  if (body.object === "page") {
+  console.log("message", body.entry[0].messaging[0]);
+  if (
+    body.object === "page" &&
+    body.entry[0].messaging[0].message !== undefined
+  ) {
+    //message 不為空 = 使用者有傳訊息
     for (let i = 0; i < body.entry.length; i++) {
       let webhook_event = body.entry[i].messaging[0];
-      //webhook_event : sender(發送) recipient(獲得)
-      // const data = await replyMessager({
-      //   message_type: "text",
-      //   recipient: {
-      //     id: webhook_event.recipient,
-      //   },
-      //   message: {
-      //     text: "hello world",
-      //   },
-      // });
-      console.log(webhook_event);
+      if (webhook_event.message.text !== undefined) {
+        handleText(webhook_event.message.text);
+      } else {
+        console.log("attachments type");
+      }
+      console.log("webhook event", webhook_event);
     }
     res.status(200).send("EVENT_RECEIVED");
   } else {

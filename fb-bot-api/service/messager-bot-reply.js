@@ -1,4 +1,6 @@
 const axios = require("axios");
+
+require("dotenv").config();
 const replyMessager = async (body) => {
   //   const data = await fetch(
   //     `https://graph.facebook.com/v2.6/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
@@ -18,15 +20,19 @@ const replyMessager = async (body) => {
   //     });
   //   return data;
   const data = await axios({
-    method: "POST",
+    method: "post",
     url: `https://graph.facebook.com/v2.6/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
     data: body,
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    console.log(res);
-  });
+  })
+    .then((res) => {
+      console.log("successful send");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports = { replyMessager };
