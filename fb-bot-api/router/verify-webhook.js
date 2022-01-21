@@ -20,10 +20,10 @@ router.post("/webhook", async (req, res) => {
   let body = req.body;
   console.log("body", body);
   if (body.object === "page") {
-    body.entry.forEach(function (entry) {
-      let webhook_event = entry.messaging[0];
+    for (let i = 0; i < body.entry.length; i++) {
+      let webhook_event = body.entry[i].messaging[0];
       //webhook_event : sender(發送) recipient(獲得)
-      const data = replyMessager({
+      const data = await replyMessager({
         message_type: "text",
         recipient: {
           id: webhook_event.recipient,
@@ -32,9 +32,8 @@ router.post("/webhook", async (req, res) => {
           text: "hello world",
         },
       });
-      Promise.all(data);
       console.log(webhook_event);
-    });
+    }
     res.status(200).send("EVENT_RECEIVED");
   } else {
     res.sendStatus(404);
