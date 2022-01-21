@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const verify_webhook = require("./handleEvent/verify_webhook");
+const verify_webhook = require("./router/verify_webhook");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/", verify_webhook);
