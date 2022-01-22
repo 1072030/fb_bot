@@ -1,5 +1,5 @@
 const { replyMessager } = require("../service/messager-bot-reply");
-const handleText = async (text) => {
+const handleText = async (webhook_event, text) => {
   console.log(text); //這裡可以回傳對應內容
   const data = await replyMessager({
     message_type: "text",
