@@ -1,7 +1,6 @@
 const express = require("express");
 const { handleText } = require("../handleEvent/handleText");
 const router = express.Router();
-const { replyMessager } = require("../service/messager-bot-reply");
 require("dotenv").config();
 router.get("/webhook", (req, res) => {
   let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
