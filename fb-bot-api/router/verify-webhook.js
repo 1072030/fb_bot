@@ -19,7 +19,7 @@ router.get("/webhook", (req, res) => {
 router.post("/webhook", async (req, res) => {
   let body = req.body;
   console.log("body", body);
-  console.log("message", body.entry[0].messaging[0]);
+  // console.log("message", body.entry[0].messaging[0]);
   if (
     body.object === "page" &&
     body.entry[0].messaging[0].message !== undefined
