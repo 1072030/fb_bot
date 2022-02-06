@@ -4,8 +4,10 @@ require("dotenv").config();
 const PublicReply = async (commitId, message) => {
   const data = await axios({
     method: "post",
-    url: `https://graph.facebook.com/${commitId}/comments`,
-    body: message,
+    url: `https://graph.facebook.com/v12.0/${commitId}/comments?access_token=${process.env.ACCESS_TOKEN}`,
+    data: {
+      message: message,
+    },
     headers: {
       "Content-Type": "application/json",
     },

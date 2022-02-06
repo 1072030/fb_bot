@@ -6,10 +6,13 @@ const SecretReply = async (commitId, message) => {
     method: "post",
     url: `https://graph.facebook.com/v12.0/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
     data: {
+      message_type: "text",
       recipient: {
         comment_id: commitId,
       },
-      message: message,
+      message: {
+        text: message,
+      },
     },
     headers: {
       "Content-Type": "application/json",

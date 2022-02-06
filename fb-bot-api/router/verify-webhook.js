@@ -1,5 +1,10 @@
 const express = require("express");
 const { handleText } = require("../handleEvent/handleText");
+const { PublicSearch } = require("../service/messager-post-search");
+const { PublicRead } = require("../service/messager-public-read");
+const { firestore } = require("../config/firestore");
+const { PublicReply } = require("../service/messager-public-reply");
+const { SecretReply } = require("../service/messager-secret-reply");
 const router = express.Router();
 require("dotenv").config();
 router.get("/webhook", (req, res) => {
@@ -39,5 +44,32 @@ router.post("/webhook", async (req, res) => {
   //   res.sendStatus(404);
   // }
   res.status(200).send("EVENT_RECEIVED");
+});
+router.post("/refreshPage", async (req, res) => {
+  //const AllPost = await PublicSearch(); //取得fb 粉專貼文ID
+  const allPostContent = await firestore.collection("object-post").get();
+  allPostContent.forEach(async (doc) => {
+    const allComments = await PublicRead(doc.data().post_id);
+    let comments = doc.data().comment_id;
+    console.log(doc.data().comment_id);
+    allComments.map(async (x) => {
+      if (doc.data().comment_id.indexOf(x.id) == -1) {
+        //不存在於firebase需要回復
+        //const publicReply = await PublicReply(x.id, "這是公開的測試回復");
+        const secretReply = await SecretReply(x.id, "這是私密的測試回復");
+        console.log("回復");
+        comments.push(x.id);
+      } else {
+        console.log("沒有新留言");
+      }
+    });
+    await firestore.collection("object-post").doc(doc.id).update({
+      comment_id: comments,
+    });
+  });
+
+  res.status(200).send({
+    message: "success",
+  });
 });
 module.exports = router;
