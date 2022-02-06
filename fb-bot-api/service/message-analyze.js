@@ -11,7 +11,6 @@ const messageAnalyze = (message) => {
   label.map((x) => {
     content.push(x.split("+"));
   });
-
   return { content, location };
 };
 module.exports = { messageAnalyze };
