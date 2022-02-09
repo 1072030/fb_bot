@@ -1,10 +1,13 @@
 const express = require("express");
 const { handleText } = require("../handleEvent/handleText");
-const { PublicSearch } = require("../service/messager-post-search");
-const { PublicRead } = require("../service/messager-public-read");
+const {
+  replyMessager,
+  PublicSearch,
+  PublicRead,
+  PublicReply,
+  SecretReply,
+} = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
-const { PublicReply } = require("../service/messager-public-reply");
-const { SecretReply } = require("../service/messager-secret-reply");
 const { messageAnalyze } = require("../service/message-analyze");
 const router = express.Router();
 require("dotenv").config();
@@ -52,14 +55,15 @@ router.post("/refreshPage", async (req, res) => {
   allPostContent.forEach(async (doc) => {
     const allComments = await PublicRead(doc.data().post_id);
     let comments = doc.data().comment_id;
-    console.log(doc.data().comment_id);
+    //console.log(doc.data().comment_id);
     allComments.map(async (x) => {
       if (doc.data().comment_id.indexOf(x.id) == -1) {
         //不存在於firebase需要回復
         //const publicReply = await PublicReply(x.id, "這是公開的測試回復"); //測試成功
         //console.log(x.message);
-        const content = messageAnalyze(x.message);
         console.log(x.id);
+        console.log("原始對話: ", x.message);
+        const content = messageAnalyze(x.message);
         console.log(content);
         //const secretReply = await SecretReply(x.id, "這是私密的測試回復"); //只能回復管理員 需要權限...
 
