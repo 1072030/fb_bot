@@ -47,7 +47,9 @@ router.post("/webhook", async (req, res) => {
   } else {
     //res.sendStatus(404);
   }
-  res.status(200);
+  res.status(200).send({
+    message: "success",
+  });
 });
 router.post("/refreshPage", async (req, res) => {
   //const AllPost = await PublicSearch(); //取得fb 粉專貼文ID
