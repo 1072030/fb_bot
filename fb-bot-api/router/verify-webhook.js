@@ -43,7 +43,6 @@ router.post("/webhook", async (req, res) => {
       }
       console.log("webhook event", webhook_event);
     }
-    res.status(200).send("EVENT_RECEIVED");
   } else {
     //res.sendStatus(404);
   }
