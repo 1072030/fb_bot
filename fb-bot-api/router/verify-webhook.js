@@ -34,16 +34,16 @@ router.post("/webhook", async (req, res) => {
     body.entry[0].messaging[0].message !== undefined
   ) {
     //message 不為空 = 使用者有傳訊息
-    for (let i = 0; i < body.entry.length; i++) {
-      let webhook_event = body.entry[i].messaging[0];
-      if (webhook_event.message.text !== undefined) {
-        handleText(webhook_event, webhook_event.message.text); //處理文字訊息
-      } else {
-        console.log("attachments type");
-      }
-      console.log("webhook event", webhook_event);
-    }
-    res.status(200).send("EVENT_RECEIVED1");
+    // for (let i = 0; i < body.entry.length; i++) {
+    //   let webhook_event = body.entry[i].messaging[0];
+    //   if (webhook_event.message.text !== undefined) {
+    //     handleText(webhook_event, webhook_event.message.text); //處理文字訊息
+    //   } else {
+    //     console.log("attachments type");
+    //   }
+    //   console.log("webhook event", webhook_event);
+    // }
+    res.status(200).send("EVENT_RECEIVED");
   } else {
     res.sendStatus(404);
   }
