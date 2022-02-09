@@ -7,7 +7,7 @@ const handleText = async (webhook_event, text) => {
       id: webhook_event.sender.id,
     },
     message: {
-      text: "hello world",
+      text: "This is webhook reply",
     },
   });
 };
