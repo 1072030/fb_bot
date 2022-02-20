@@ -79,7 +79,7 @@ router.post("/refreshPage", async (req, res) => {
 
         comments.push(x.id);
       } else {
-        //console.log("沒有新留言");
+        // console.log("沒有新留言");
       }
       await firestore.collection("object-post").doc(doc.id).update({
         comment_id: comments,
