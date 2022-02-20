@@ -71,7 +71,7 @@ router.post("/refreshPage", async (req, res) => {
         });
         const publicReply = await PublicReply(x.id); //測試成功
         console.log(content);
-        //const secretReply = await SecretReply(x.id, "這是私密的測試回復"); //只能回復管理員 需要權限...
+        const secretReply = await SecretReply(x.id, "這是私密的測試回復"); //只能回復管理員 需要權限...
 
         //comments.push(x.id);
       } else {
