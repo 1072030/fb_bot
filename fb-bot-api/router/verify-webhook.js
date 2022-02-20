@@ -69,9 +69,9 @@ router.post("/refreshPage", async (req, res) => {
         content.content.map((x) => {
           publicReplyMessage.concat(x[0], x[1]);
         });
-        // const publicReply = await PublicReply(x.id); //測試成功
+        const publicReply = await PublicReply(x.id, publicReplyMessage); //測試成功
         console.log(content);
-        const secretReply = await SecretReply(x.id, ""); //只能回復管理員 需要權限...
+        const secretReply = await SecretReply(x.id, "私密訊息"); //只能回復管理員 需要權限...
 
         //comments.push(x.id);
       } else {
