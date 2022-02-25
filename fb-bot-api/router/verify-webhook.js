@@ -9,6 +9,7 @@ const {
 } = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
 const { messageAnalyze } = require("../service/message-analyze");
+const { orderPrice } = require("../service/order-price");
 const router = express.Router();
 require("dotenv").config();
 router.get("/webhook", (req, res) => {
@@ -63,28 +64,21 @@ router.post("/refreshPage", async (req, res) => {
         //不存在於firebase需要回復
 
         //console.log(x.message);
-        console.log(x.id);
-        console.log("原始對話: ", x.message);
+        // console.log(x.id);
+        console.log("---------原始對話: ", x.message);
         const content = messageAnalyze(x.message);
-        let publicReplyMessage = "";
-        content.content.map((x) => {
-          publicReplyMessage = publicReplyMessage.concat(x[0], x[1], "份\n");
-        });
-        console.log("publicReplyMessage", publicReplyMessage);
-        const publicReply = await PublicReply(x.id, "小編已私訊您"); //測試成功
-        console.log("content", content);
-        const secretReply = await SecretReply(
-          x.id,
-          `您的訂單內容 :\n${publicReplyMessage}  \n地點:\n${content.location}`
-        ); //只能回復管理員 需要權限...
+        // const publicReply = await PublicReply(x.id, "小編已私訊您"); //測試成功
+        const order = orderPrice(content);
+
+        // const secretReply = await SecretReply(x.id, order); //只能回復管理員 需要權限...
 
         comments.push(x.id);
       } else {
         // console.log("沒有新留言");
       }
-      await firestore.collection("object-post").doc(doc.id).update({
-        comment_id: comments,
-      });
+      // await firestore.collection("object-post").doc(doc.id).update({
+      //   comment_id: comments,
+      // });
     });
   });
 
