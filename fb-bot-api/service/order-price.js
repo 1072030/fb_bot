@@ -64,7 +64,6 @@ const orderPrice = (message) => {
     }\n運費: 60元\n總金額: ${orderPrice + 60}元\n到貨日期: ${Math.floor(
       Math.random() * 3 + +2
     )}天後。\n如果有任何需求在私訊小編唷，小編會盡快與您聯繫 :)`;
-    console.log(replyMessage);
     return replyMessage;
   }
 };

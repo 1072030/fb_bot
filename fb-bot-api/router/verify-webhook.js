@@ -67,18 +67,18 @@ router.post("/refreshPage", async (req, res) => {
         // console.log(x.id);
         console.log("---------原始對話: ", x.message);
         const content = messageAnalyze(x.message);
-        // const publicReply = await PublicReply(x.id, "小編已私訊您"); //測試成功
+        const publicReply = await PublicReply(x.id, "小編已私訊您"); //測試成功
         const order = orderPrice(content);
 
-        // const secretReply = await SecretReply(x.id, order); //只能回復管理員 需要權限...
+        const secretReply = await SecretReply(x.id, order); //只能回復管理員 需要權限...
 
         comments.push(x.id);
       } else {
         // console.log("沒有新留言");
       }
-      // await firestore.collection("object-post").doc(doc.id).update({
-      //   comment_id: comments,
-      // });
+      await firestore.collection("object-post").doc(doc.id).update({
+        comment_id: comments,
+      });
     });
   });
 
