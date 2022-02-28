@@ -1,9 +1,8 @@
-const orderPrice = (message) => {
+const orderPrice = (message, originMessage) => {
   let replyMessage = "";
   console.log(message.content);
   if (message.location === undefined || message.location === "") {
-    replyMessage =
-      "填寫內容有誤，請刪除留言，在重新填寫\n感謝您的配合，造成您的不便敬請見諒。";
+    replyMessage = `你的貼文留言: "${originMessage}" \n填寫內容有誤，請重新填寫，可查看貼文上的留言格式。\n感謝您的配合，造成您的不便敬請見諒。`;
     console.log(replyMessage);
     return replyMessage;
   } else {

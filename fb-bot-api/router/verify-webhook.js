@@ -62,16 +62,14 @@ router.post("/refreshPage", async (req, res) => {
     allComments.map(async (x) => {
       if (doc.data().comment_id.indexOf(x.id) == -1) {
         //不存在於firebase需要回復
-
-        //console.log(x.message);
-        // console.log(x.id);
         console.log("---------原始對話: ", x.message);
         const content = messageAnalyze(x.message);
-        const publicReply = await PublicReply(x.id, "小編已私訊您"); //測試成功
-        const order = orderPrice(content);
-
+        const publicReply = await PublicReply(
+          x.id,
+          "小編已私訊您~請查看留言唷"
+        ); //測試成功
+        const order = orderPrice(content, x.message);
         const secretReply = await SecretReply(x.id, order); //只能回復管理員 需要權限...
-
         comments.push(x.id);
       } else {
         // console.log("沒有新留言");
