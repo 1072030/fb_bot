@@ -54,7 +54,7 @@ router.post("/webhook", async (req, res) => {
 });
 // router.post("/refreshPage", async (req, res) => {
 //const AllPost = await PublicSearch(); //取得fb 粉專貼文ID
-setInterval(() => {
+setInterval(async () => {
   const allPostContent = await firestore.collection("object-post").get();
   allPostContent.forEach(async (doc) => {
     const allComments = await PublicRead(doc.data().post_id);
