@@ -52,8 +52,9 @@ router.post("/webhook", async (req, res) => {
     message: "success",
   });
 });
-router.post("/refreshPage", async (req, res) => {
-  //const AllPost = await PublicSearch(); //取得fb 粉專貼文ID
+// router.post("/refreshPage", async (req, res) => {
+//const AllPost = await PublicSearch(); //取得fb 粉專貼文ID
+setInterval(async () => {
   const allPostContent = await firestore.collection("object-post").get();
   allPostContent.forEach(async (doc) => {
     const allComments = await PublicRead(doc.data().post_id);
@@ -79,9 +80,10 @@ router.post("/refreshPage", async (req, res) => {
       });
     });
   });
+}, 5000);
 
-  res.status(200).send({
-    message: "success",
-  });
-});
+// res.status(200).send({
+//   message: "success",
+// });
+// });
 module.exports = router;
