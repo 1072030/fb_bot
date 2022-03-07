@@ -32,8 +32,8 @@ app.listen(port, () => {
 });
 
 setInterval(async () => {
-  console.log("Interval");
   try {
+    console.log("interval");
     const allPostContent = await firestore.collection("object-post").get();
     allPostContent.forEach(async (doc) => {
       const allComments = await PublicRead(doc.data().post_id);
@@ -62,4 +62,4 @@ setInterval(async () => {
   } catch (err) {
     console.log(err);
   }
-}, 1000);
+}, 3000);
