@@ -13,6 +13,11 @@ const {
 const { firestore } = require("./config/firestore");
 const { messageAnalyze } = require("./service/message-analyze");
 const { orderPrice } = require("./service/order-price");
+const {
+  getGroupsRead,
+  getGroupsMessages,
+  groupsMessagesPublicReply,
+} = require("./service/group-message-reply");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,7 +35,37 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
+setInterval(async () => {
+  const allPostContent = await firestore.collection("object-post").get();
+  allPostContent.forEach(async (doc) => {
+    const allPost = await getGroupsRead();
 
+    allPost.map(async (x) => {
+      if (x.id === doc.data().post_id) {
+        //find same post_id
+        let comments = doc.data().comment_id;
+        // console.log('comments',comments)
+        const allComments = await getGroupsMessages(x.id);
+        console.log(allComments);
+        allComments.map(async (y) => {
+          if (comments.indexOf(y.id) == -1) {
+            const contentReply = "訂單已確認，請至app了解情況";
+            const reply = allComments.map(async (p) => {
+              // console.log(p.id);
+              comments.push(p.id);
+              await groupsMessagesPublicReply(p.id, contentReply);
+            });
+
+            // console.log(allComments);
+          }
+        });
+        await firestore.collection("object-post").doc(doc.id).update({
+          comment_id: comments,
+        });
+      }
+    });
+  });
+}, 3000);
 // setInterval(async () => {
 //   try {
 //     console.log("interval");
