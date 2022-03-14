@@ -39,24 +39,19 @@ setInterval(async () => {
   const allPostContent = await firestore.collection("object-post").get();
   allPostContent.forEach(async (doc) => {
     const allPost = await getGroupsRead();
-
     allPost.map(async (x) => {
       if (x.id === doc.data().post_id) {
-        //find same post_id
         let comments = doc.data().comment_id;
-        // console.log('comments',comments)
+
         const allComments = await getGroupsMessages(x.id);
-        console.log(allComments);
         allComments.map(async (y) => {
+          console.log(y);
           if (comments.indexOf(y.id) == -1) {
             const contentReply = "訂單已確認，請至app了解情況";
-            const reply = allComments.map(async (p) => {
-              // console.log(p.id);
+            allComments.map(async (p) => {
               comments.push(p.id);
               await groupsMessagesPublicReply(p.id, contentReply);
             });
-
-            // console.log(allComments);
           }
         });
         await firestore.collection("object-post").doc(doc.id).update({
