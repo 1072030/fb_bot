@@ -42,11 +42,10 @@ setInterval(async () => {
     allPost.map(async (x) => {
       if (x.id === doc.data().post_id) {
         let comments = doc.data().comment_id;
-
         const allComments = await getGroupsMessages(x.id);
         allComments.map(async (y) => {
-          console.log(y);
           if (comments.indexOf(y.id) == -1) {
+            console.log(y.id);
             const contentReply = "訂單已確認，請至app了解情況";
             allComments.map(async (p) => {
               comments.push(p.id);
