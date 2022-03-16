@@ -42,6 +42,7 @@ setInterval(async () => {
     allPost.map(async (x) => {
       if (x.id === doc.data().post_id) {
         let comments = doc.data().comment_id;
+        const beforeComments = comments;
         const allComments = await getGroupsMessages(x.id);
         allComments.map(async (y) => {
           if (comments.indexOf(y.id) == -1) {
@@ -53,9 +54,12 @@ setInterval(async () => {
             });
           }
         });
-        await firestore.collection("object-post").doc(doc.id).update({
-          comment_id: comments,
-        });
+        if (comments.length !== beforeComments.length) {
+          console.log("in");
+          await firestore.collection("object-post").doc(doc.id).update({
+            comment_id: comments,
+          });
+        }
       }
     });
   });
