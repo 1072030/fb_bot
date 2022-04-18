@@ -52,8 +52,17 @@ const groupsMessagesPublicReply = async (commitId, message) => {
     });
   return data;
 };
+const groupsMessagesUrlGenerate = async (message) => {
+  const contentArr = message.split(","); // 標示
+  let uri = "";
+  contentArr.map((x) => {
+    console.log(x);
+  });
+  return;
+};
 module.exports = {
   getGroupsRead,
   getGroupsMessages,
   groupsMessagesPublicReply,
+  groupsMessagesUrlGenerate,
 };

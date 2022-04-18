@@ -17,6 +17,7 @@ const {
   getGroupsRead,
   getGroupsMessages,
   groupsMessagesPublicReply,
+  groupsMessagesUrlGenerate,
 } = require("./service/group-message-reply");
 
 app.use(express.urlencoded({ extended: true }));
@@ -47,9 +48,11 @@ setInterval(async () => {
         allComments.map(async (y) => {
           if (comments.indexOf(y.id) == -1) {
             console.log(y.id);
-            const contentReply = "訂單已確認，請至app了解情況";
+            // const contentReply = "訂單已確認，請至app了解情況";
             allComments.map(async (p) => {
               comments.push(p.id);
+              console.log(p.message);
+              const contentReply = groupsMessagesUrlGenerate(p.message);
               await groupsMessagesPublicReply(p.id, contentReply);
             });
           }
@@ -63,7 +66,7 @@ setInterval(async () => {
       }
     });
   });
-}, 3000);
+}, 5000);
 // setInterval(async () => {
 //   try {
 //     console.log("interval");
