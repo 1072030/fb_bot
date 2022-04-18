@@ -43,26 +43,26 @@ setInterval(async () => {
     allPost.map(async (x) => {
       if (x.id === doc.data().post_id) {
         let comments = doc.data().comment_id;
-        const beforeComments = comments;
-        const allComments = await getGroupsMessages(x.id);
+        const allComments = await getGroupsMessages(x.id); //取得留言
         allComments.map(async (y) => {
           if (comments.indexOf(y.id) == -1) {
-            console.log(y.id);
-            // const contentReply = "訂單已確認，請至app了解情況";
-            allComments.map(async (p) => {
-              comments.push(p.id);
-              console.log(p.message);
-              const contentReply = groupsMessagesUrlGenerate(p.message);
-              await groupsMessagesPublicReply(p.id, contentReply);
-            });
+            //不存在於資料庫中 => 新留言
+            comments.push(y.id);
+            // const contentReply = groupsMessagesUrlGenerate(y.message);
+            const contentReply = "Get message every ten second";
+            const publicReply = await groupsMessagesPublicReply(
+              y.id,
+              contentReply
+            );
+            const update = await firestore //新留言記錄在資料庫
+              .collection("object-post")
+              .doc(doc.id)
+              .update({
+                //update問題 陣列越多 更新次數按照數量而定(firestore 免費2萬次)
+                comment_id: comments,
+              });
           }
         });
-        if (comments.length !== beforeComments.length) {
-          console.log("in");
-          await firestore.collection("object-post").doc(doc.id).update({
-            comment_id: comments,
-          });
-        }
       }
     });
   });

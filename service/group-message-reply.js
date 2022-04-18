@@ -4,7 +4,7 @@ const getGroupsRead = async () => {
   //社團貼文搜尋
   const data = await axios({
     method: "get",
-    url: `https://graph.facebook.com/v12.0/${process.env.GROUP_ID}/feed?access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/v13.0/${process.env.GROUP_ID}/feed?access_token=${process.env.ACCESS_TOKEN}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -20,7 +20,7 @@ const getGroupsRead = async () => {
 const getGroupsMessages = async (groupPostId) => {
   const data = await axios({
     method: "get",
-    url: `https://graph.facebook.com/v12.0/${groupPostId}/comments?access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/v13.0/${groupPostId}/comments?access_token=${process.env.ACCESS_TOKEN}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -53,12 +53,12 @@ const groupsMessagesPublicReply = async (commitId, message) => {
   return data;
 };
 const groupsMessagesUrlGenerate = async (message) => {
-  const contentArr = message.split(","); // 標示
+  const contentArr = message.split("\n"); // 標示
   let uri = "";
   contentArr.map((x) => {
-    console.log(x);
+    console.log(59, x);
   });
-  return;
+  return 0;
 };
 module.exports = {
   getGroupsRead,
