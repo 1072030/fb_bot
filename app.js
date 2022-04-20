@@ -37,7 +37,8 @@ app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
 setInterval(async () => {
-  const allPostContent = await firestore.collection("object-post").get();
+  const allPostContent = await firestore.collection("object-post").get(); //免費5萬次
+
   allPostContent.forEach(async (doc) => {
     const allPost = await getGroupsRead();
     allPost.map(async (x) => {
@@ -48,12 +49,9 @@ setInterval(async () => {
           if (comments.indexOf(y.id) == -1) {
             //不存在於資料庫中 => 新留言
             comments.push(y.id);
-            // const contentReply = groupsMessagesUrlGenerate(y.message);
-            const contentReply = "Get message every ten second";
-            const publicReply = await groupsMessagesPublicReply(
-              y.id,
-              contentReply
-            );
+            const uri = groupsMessagesUrlGenerate(y.message);
+            console.log(53, uri);
+            const publicReply = await groupsMessagesPublicReply(y.id, uri);
             const update = await firestore //新留言記錄在資料庫
               .collection("object-post")
               .doc(doc.id)

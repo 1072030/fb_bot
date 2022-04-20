@@ -52,14 +52,55 @@ const groupsMessagesPublicReply = async (commitId, message) => {
     });
   return data;
 };
-const groupsMessagesUrlGenerate = async (message) => {
-  const contentArr = message.split("\n"); // 標示
+const groupsMessagesUrlGenerate = (message) => {
+  //利用換行
+  //利用井號 #
+  //利用ABC
+  //利用+1來分割
+  let obj = [];
   let uri = "";
-  contentArr.map((x) => {
-    console.log(59, x);
-  });
-  return 0;
+  if (message.includes("，")) {
+    const contentArr = message.split("，"); //標示
+    contentArr.map((x) => {
+      const goods = x.split("+");
+      for (let i = 0; i < goods.length; i++) {
+        goods[i] = goods[i].replace(/\r\n|\n/g, "");
+        goods[i] = goods[i].replace(/\s+/g, "");
+      }
+      const item = goods[0];
+      const quantity = goods[1];
+      if (item !== undefined && quantity !== undefined) {
+        obj.push({
+          item,
+          quantity,
+        });
+      }
+    });
+  } else if (message.includes("\n")) {
+    const contentArr = message.split("\n"); //標示
+    contentArr.map((x) => {
+      const goods = x.split("+");
+      for (let i = 0; i < goods.length; i++) {
+        goods[i] = goods[i].replace(/\r\n|\n/g, "");
+        goods[i] = goods[i].replace(/\s+/g, "");
+      }
+      const item = goods[0];
+      const quantity = goods[1];
+      if (item !== undefined && quantity !== undefined) {
+        obj.push({
+          item,
+          quantity,
+        });
+      }
+    });
+  }
+  if (obj.length !== 0) {
+    return obj;
+  } else {
+    return "cannot get your message ! Please try again";
+  }
 };
+
 module.exports = {
   getGroupsRead,
   getGroupsMessages,
