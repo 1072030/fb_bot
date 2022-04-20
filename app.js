@@ -64,7 +64,7 @@ setInterval(async () => {
       }
     });
   });
-}, 5000);
+}, 8000);
 // setInterval(async () => {
 //   try {
 //     console.log("interval");

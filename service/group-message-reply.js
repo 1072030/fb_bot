@@ -59,43 +59,41 @@ const groupsMessagesUrlGenerate = (message) => {
   //利用+1來分割
   let obj = [];
   let uri = "";
+  let contentArr;
   if (message.includes("，")) {
-    const contentArr = message.split("，"); //標示
-    contentArr.map((x) => {
-      const goods = x.split("+");
-      for (let i = 0; i < goods.length; i++) {
-        goods[i] = goods[i].replace(/\r\n|\n/g, "");
-        goods[i] = goods[i].replace(/\s+/g, "");
-      }
-      const item = goods[0];
-      const quantity = goods[1];
-      if (item !== undefined && quantity !== undefined) {
-        obj.push({
-          item,
-          quantity,
-        });
-      }
-    });
+    contentArr = message.split("，");
   } else if (message.includes("\n")) {
-    const contentArr = message.split("\n"); //標示
-    contentArr.map((x) => {
-      const goods = x.split("+");
-      for (let i = 0; i < goods.length; i++) {
-        goods[i] = goods[i].replace(/\r\n|\n/g, "");
-        goods[i] = goods[i].replace(/\s+/g, "");
-      }
-      const item = goods[0];
-      const quantity = goods[1];
-      if (item !== undefined && quantity !== undefined) {
-        obj.push({
-          item,
-          quantity,
-        });
-      }
-    });
+    contentArr = message.split("\n");
   }
+  contentArr.map((x) => {
+    const goods = x.split("+");
+    for (let i = 0; i < goods.length; i++) {
+      goods[i] = goods[i].replace(/\r\n|\n/g, "");
+      goods[i] = goods[i].replace(/\s+/g, "");
+    }
+    const item = goods[0];
+    const quantity = goods[1];
+    if (item !== undefined && quantity !== undefined) {
+      obj.push({
+        item,
+        quantity,
+      });
+    }
+  });
   if (obj.length !== 0) {
-    return obj;
+    let content = "商品內容:\n";
+    for (let i = 0; i < obj.length; i++) {
+      if (i == obj.length - 1) {
+        content = content.concat(
+          `品項:${obj[i].item}，數量:${obj[i].quantity}個。`
+        );
+      } else {
+        content = content.concat(
+          `品項:${obj[i].item}，數量:${obj[i].quantity}個\n`
+        );
+      }
+    }
+    return content;
   } else {
     return "cannot get your message ! Please try again";
   }
