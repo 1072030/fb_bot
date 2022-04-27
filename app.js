@@ -36,35 +36,35 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
-setInterval(async () => {
-  const allPostContent = await firestore.collection("object-post").get(); //免費5萬次
+// setInterval(async () => {
+//   const allPostContent = await firestore.collection("object-post").get(); //免費5萬次
 
-  allPostContent.forEach(async (doc) => {
-    const allPost = await getGroupsRead();
-    allPost.map(async (x) => {
-      if (x.id === doc.data().post_id) {
-        let comments = doc.data().comment_id;
-        const allComments = await getGroupsMessages(x.id); //取得留言
-        allComments.map(async (y) => {
-          if (comments.indexOf(y.id) == -1) {
-            //不存在於資料庫中 => 新留言
-            comments.push(y.id);
-            const uri = groupsMessagesUrlGenerate(y.message);
-            console.log(53, uri);
-            const publicReply = await groupsMessagesPublicReply(y.id, uri);
-            const update = await firestore //新留言記錄在資料庫
-              .collection("object-post")
-              .doc(doc.id)
-              .update({
-                //update問題 陣列越多 更新次數按照數量而定(firestore 免費2萬次)
-                comment_id: comments,
-              });
-          }
-        });
-      }
-    });
-  });
-}, 8000);
+//   allPostContent.forEach(async (doc) => {
+//     const allPost = await getGroupsRead();
+//     allPost.map(async (x) => {
+//       if (x.id === doc.data().post_id) {
+//         let comments = doc.data().comment_id;
+//         const allComments = await getGroupsMessages(x.id); //取得留言
+//         allComments.map(async (y) => {
+//           if (comments.indexOf(y.id) == -1) {
+//             //不存在於資料庫中 => 新留言
+//             comments.push(y.id);
+//             const uri = groupsMessagesUrlGenerate(y.message);
+//             console.log(53, uri);
+//             const publicReply = await groupsMessagesPublicReply(y.id, uri);
+//             const update = await firestore //新留言記錄在資料庫
+//               .collection("object-post")
+//               .doc(doc.id)
+//               .update({
+//                 //update問題 陣列越多 更新次數按照數量而定(firestore 免費2萬次)
+//                 comment_id: comments,
+//               });
+//           }
+//         });
+//       }
+//     });
+//   });
+// }, 8000);
 // setInterval(async () => {
 //   try {
 //     console.log("interval");
