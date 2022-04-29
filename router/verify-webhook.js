@@ -6,6 +6,7 @@ const {
   PublicRead,
   PublicReply,
   SecretReply,
+  PublicReadSearch,
 } = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
 const { messageAnalyze } = require("../service/message-analyze");
@@ -65,6 +66,12 @@ router.post("/webhook", async (req, res) => {
   const entryId = req.body.entry.id;
   switch (entryId) {
     case "101090595820826":
+      try {
+        const { postId, message } = req.body.entry[0].changes[0].value;
+        PublicReadSearch(postId, message);
+      } catch (e) {
+        console.log(e);
+      }
       break;
     case "101055592406144":
       console.log("波頭君");

@@ -53,6 +53,24 @@ const PublicRead = async (commitId) => {
     });
   return data;
 };
+//這是用訊息和postId來搜尋commitId (Webhook需求)
+const PublicReadSearch = async (postId, message) => {
+  const data = await axios({
+    method: "POST",
+    url: `https://graph.facebook.com/v12.0/${postId}/comments?message=${message}&access_token=${process.env.ACCESS_TOKEN}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      //console.log("All_reply", res.data.data);
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return data;
+};
 //這個function回覆貼文下面的留言
 const PublicReply = async (commitId, message) => {
   const data = await axios({
@@ -100,6 +118,7 @@ const SecretReply = async (commitId, message) => {
   return data;
 };
 module.exports = {
+  PublicReadSearch,
   replyMessager,
   PublicSearch,
   PublicRead,
