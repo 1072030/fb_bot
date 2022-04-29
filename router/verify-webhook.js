@@ -71,7 +71,7 @@ router.post("/webhook", async (req, res) => {
           const { post_id, comment_id } = req.body.entry[0].changes[0].value;
           console.log(comment_id);
           const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
-          PublicReply(comment_id, replyMessage);
+          // PublicReply(comment_id, replyMessage);
         } catch (e) {
           console.log(e);
         }
