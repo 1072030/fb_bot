@@ -36,35 +36,16 @@ const PublicSearch = async () => {
   return data;
 };
 //這個function是搜尋貼文下的留言
-const PublicRead = async (commitId) => {
+const PublicRead = async (post_id) => {
   const data = await axios({
     method: "get",
-    url: `https://graph.facebook.com/v12.0/${commitId}/comments?order=reverse_chronological&filter=toplevel&access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/v12.0/${post_id}/comments?order=reverse_chronological&filter=toplevel&access_token=${process.env.ACCESS_TOKEN}`,
     headers: {
       "Content-Type": "application/json",
     },
   })
     .then((res) => {
       //console.log("All_reply", res.data.data);
-      return res.data.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  return data;
-};
-//這是用訊息和postId來搜尋commitId (Webhook需求)
-const PublicReadSearch = async (postId, message) => {
-  const data = await axios({
-    method: "POST",
-    url: `https://graph.facebook.com/${postId}/comments?message=${message}&access_token=${process.env.ACCESS_TOKEN}`,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => {
-      //console.log("All_reply", res.data.data);
-      console.log("webhook", res.data);
       return res.data.data;
     })
     .catch((err) => {
@@ -119,7 +100,6 @@ const SecretReply = async (commitId, message) => {
   return data;
 };
 module.exports = {
-  PublicReadSearch,
   replyMessager,
   PublicSearch,
   PublicRead,
