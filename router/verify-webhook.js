@@ -64,7 +64,7 @@ router.post("/webhook", async (req, res) => {
   if (req.body.objcet === "page") {
     console.log(31, req.body.entry[0].changes);
     console.log(32, req.body.entry[0].changes[0].value.from);
-    const entryId = req.body.entry.id;
+    const entryId = req.body.entry[0].id;
     switch (entryId) {
       case "101090595820826":
         try {
