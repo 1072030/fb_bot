@@ -53,6 +53,23 @@ const PublicRead = async (post_id) => {
     });
   return data;
 };
+//Search commentId
+const GetCommentId = async () => {
+  const data = await axios({
+    method: "get",
+    url: `https://graph.facebook.com/v12.0/${commitId}?access_token=${process.env.ACCESS_TOKEN}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      console.log("successful public reply");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return data;
+};
 //這個function回覆貼文下面的留言
 const PublicReply = async (commitId, message) => {
   const data = await axios({
@@ -105,4 +122,5 @@ module.exports = {
   PublicRead,
   PublicReply,
   SecretReply,
+  GetCommentId,
 };
