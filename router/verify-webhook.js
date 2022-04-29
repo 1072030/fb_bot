@@ -27,8 +27,13 @@ router.get("/webhook", (req, res) => {
   }
 });
 router.post("/webhook", async (req, res) => {
-  let body = req.body;
-  console.log("body", body);
+  console.log("body", req.body);
+  console.log(31, req.body.entry[0].messaging);
+
+  if (req.body.entry.id === "101090595820826") {
+    console.log("LinYuJia");
+    // LinYuJia
+  }
   // console.log("message", body.entry[0].messaging[0]);
   // if (
   //   body.object === "page" &&
