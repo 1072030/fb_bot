@@ -14,7 +14,7 @@ const messageAnalyze = (message) => {
   });
   return { content, location };
 };
-const groupsMessagesUrlGenerate = (message) => {
+const MessagesUrlGenerate = (message) => {
   //利用換行
   //利用井號 #
   //利用ABC
@@ -79,4 +79,4 @@ const groupsMessagesUrlGenerate = (message) => {
   //   return 'cannot get your message ! Please try again';
   // }
 };
-module.exports = { messageAnalyze, groupsMessagesUrlGenerate };
+module.exports = { messageAnalyze, MessagesUrlGenerate };

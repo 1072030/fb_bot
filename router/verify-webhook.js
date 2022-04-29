@@ -8,7 +8,10 @@ const {
   SecretReply,
 } = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
-const { messageAnalyze } = require("../service/message-analyze");
+const {
+  messageAnalyze,
+  MessagesUrlGenerate,
+} = require("../service/message-analyze");
 const { orderPrice } = require("../service/order-price");
 const router = express.Router();
 require("dotenv").config();
@@ -71,18 +74,22 @@ router.post("/webhook", async (req, res) => {
             req.body.entry[0].changes[0].value;
           console.log(comment_id);
           if (post_id === parent_id) {
+            //還沒有公開回覆
             const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
             await PublicReply(comment_id, replyMessage);
-            const secretReply = messageAnalyze(message);
-            // await SecretReply(comment_id, secretReply);
+            const secretReply = MessagesUrlGenerate(message);
+            await SecretReply(comment_id, secretReply);
           }
           // PublicReply(comment_id, replyMessage);
         } catch (e) {
           console.log(e);
         }
         break;
-      case "101055592406144":
+      case "733025400791073":
         console.log("波頭君");
+        break;
+      case "":
+        console.log("鮮果樂園");
         break;
     }
   }
