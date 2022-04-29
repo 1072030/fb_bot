@@ -28,7 +28,7 @@ router.get("/webhook", (req, res) => {
 });
 router.post("/webhook", async (req, res) => {
   console.log("body", req.body);
-  console.log(31, req.body.entry[0].messaging);
+  console.log(31, req.body.entry[0].changes);
 
   if (req.body.entry.id === "101090595820826") {
     console.log("LinYuJia");
