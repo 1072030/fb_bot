@@ -6,8 +6,6 @@ const {
   PublicRead,
   PublicReply,
   SecretReply,
-
-  GetCommentId,
 } = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
 const { messageAnalyze } = require("../service/message-analyze");
@@ -69,10 +67,15 @@ router.post("/webhook", async (req, res) => {
     switch (entryId) {
       case "101090595820826":
         try {
-          const { post_id, comment_id } = req.body.entry[0].changes[0].value;
+          const { post_id, comment_id, parent_id, message } =
+            req.body.entry[0].changes[0].value;
           console.log(comment_id);
-          const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
-          GetCommentId(comment_id);
+          if (post_id === parent_id) {
+            const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
+            await PublicReply(comment_id, replyMessage);
+            const secretReply = messageAnalyze(message);
+            // await SecretReply(comment_id, secretReply);
+          }
           // PublicReply(comment_id, replyMessage);
         } catch (e) {
           console.log(e);
