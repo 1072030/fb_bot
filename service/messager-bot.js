@@ -57,7 +57,7 @@ const PublicRead = async (commitId) => {
 const PublicReadSearch = async (postId, message) => {
   const data = await axios({
     method: "POST",
-    url: `https://graph.facebook.com/v12.0/${postId}/comments?message=${message}&access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/${postId}/comments?message=${message}&access_token=${process.env.ACCESS_TOKEN}`,
     headers: {
       "Content-Type": "application/json",
     },
