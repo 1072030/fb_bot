@@ -61,21 +61,23 @@ router.get("/webhook", (req, res) => {
 // ]
 router.post("/webhook", async (req, res) => {
   console.log("body", req.body);
-  console.log(31, req.body.entry[0].changes);
-  console.log(32, req.body.entry[0].changes[0].value.from);
-  const entryId = req.body.entry.id;
-  switch (entryId) {
-    case "101090595820826":
-      try {
-        const { postId, message } = req.body.entry[0].changes[0].value;
-        PublicReadSearch(postId, message);
-      } catch (e) {
-        console.log(e);
-      }
-      break;
-    case "101055592406144":
-      console.log("波頭君");
-      break;
+  if (req.body.objcet === "page") {
+    console.log(31, req.body.entry[0].changes);
+    console.log(32, req.body.entry[0].changes[0].value.from);
+    const entryId = req.body.entry.id;
+    switch (entryId) {
+      case "101090595820826":
+        try {
+          const { postId, message } = req.body.entry[0].changes[0].value;
+          PublicReadSearch(postId, message);
+        } catch (e) {
+          console.log(e);
+        }
+        break;
+      case "101055592406144":
+        console.log("波頭君");
+        break;
+    }
   }
   // console.log("message", body.entry[0].messaging[0]);
   // if (
