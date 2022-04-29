@@ -68,8 +68,8 @@ router.post("/webhook", async (req, res) => {
     switch (entryId) {
       case "101090595820826":
         try {
-          const { post_id, commit_id } = req.body.entry[0].changes[0].value;
-          console.log(commit_id);
+          const { post_id, comment_id } = req.body.entry[0].changes[0].value;
+          console.log(comment_id);
         } catch (e) {
           console.log(e);
         }
