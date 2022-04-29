@@ -26,13 +26,49 @@ router.get("/webhook", (req, res) => {
     }
   }
 });
+/*
+ *
+ @param req.body.entry[0].changes
+ */
+// [
+//   {
+//     "entry": [
+//       {
+//         "changes": [
+//           {
+//             "field": "feed",
+//             "value": {
+//               "from": {
+//                 "id": "{user-id}",
+//                 "name": "Cinderella Hoover"
+//               },
+//               "item": "post",
+//               "post_id": "{page-post-id}",
+//               "verb": "add",
+//               "created_time": 1520544814,
+//               "is_hidden": false,
+//               "message": "It's Thursday and I want to eat cake."
+//             }
+//           }
+//         ],
+//         "id": "{page-id}",
+//         "time": 1520544816
+//       }
+//     ],
+//     "object": "page"
+//   }
+// ]
 router.post("/webhook", async (req, res) => {
   console.log("body", req.body);
   console.log(31, req.body.entry[0].changes);
-
-  if (req.body.entry.id === "101090595820826") {
-    console.log("LinYuJia");
-    // LinYuJia
+  const entryId = req.body.entry.id;
+  switch (entryId) {
+    case "101090595820826":
+      console.log("LinYuJia");
+      break;
+    case "101055592406144":
+      console.log("波頭君");
+      break;
   }
   // console.log("message", body.entry[0].messaging[0]);
   // if (
