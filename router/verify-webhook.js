@@ -61,8 +61,8 @@ router.get("/webhook", (req, res) => {
 // ]
 router.post("/webhook", async (req, res) => {
   console.log("body", req.body);
-  console.log("object", req.body.objcet);
-  if (req.body.objcet == "page") {
+  console.log("object", req.body.object);
+  if (req.body.object == "page") {
     console.log(31, req.body.entry[0].changes);
     console.log(32, req.body.entry[0].changes[0].value.from);
     const entryId = req.body.entry[0].id;
