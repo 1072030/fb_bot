@@ -69,7 +69,8 @@ router.post("/webhook", async (req, res) => {
       case "101090595820826":
         try {
           const { post_id, message } = req.body.entry[0].changes[0].value;
-          PublicReadSearch(post_id, message);
+          const trans = encodeURI(message);
+          // PublicReadSearch(post_id, trans);
         } catch (e) {
           console.log(e);
         }
