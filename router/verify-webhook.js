@@ -64,33 +64,33 @@ router.get("/webhook", (req, res) => {
 router.post("/webhook", async (req, res) => {
   console.log("body", req.body);
   if (req.body.object == "page") {
-    console.log(31, req.body.entry[0].changes);
-    // console.log(32, req.body.entry[0].changes[0].value.from);
-    const entryId = req.body.entry[0].id;
-    switch (entryId) {
-      case "101090595820826":
-        try {
+    try {
+      console.log(31, req.body.entry[0].changes);
+      console.log(32, req.body.entry[0].changes[0].value.from);
+      const entryId = req.body.entry[0].id;
+      switch (entryId) {
+        case "101090595820826":
           const { post_id, comment_id, parent_id, message } =
             req.body.entry[0].changes[0].value;
           console.log(comment_id);
           if (post_id === parent_id) {
             //還沒有公開回覆
             const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
-            await PublicReply(comment_id, replyMessage);
-            const secretReply = MessagesUrlGenerate(message);
-            await SecretReply(comment_id, secretReply);
+            // await PublicReply(comment_id, replyMessage);
+            // const secretReply = MessagesUrlGenerate(message);
+            // await SecretReply(comment_id, secretReply);
           }
           // PublicReply(comment_id, replyMessage);
-        } catch (e) {
-          console.log(e);
-        }
-        break;
-      case "733025400791073":
-        console.log("波頭君");
-        break;
-      case "":
-        console.log("鮮果樂園");
-        break;
+          break;
+        case "733025400791073":
+          console.log("波頭君");
+          break;
+        case "107803017532441":
+          console.log("鮮果樂園");
+          break;
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
   // console.log("message", body.entry[0].messaging[0]);
