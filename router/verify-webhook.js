@@ -65,22 +65,31 @@ router.post("/webhook", async (req, res) => {
   console.log("body", req.body);
   if (req.body.object == "page") {
     try {
-      console.log(31, req.body.entry[0].changes);
-      console.log(32, req.body.entry[0].changes[0].value.from);
+      const entry = req.body.entry[0];
+      // console.log(31, req.body.entry[0].changes);
+      // console.log(32, req.body.entry[0].changes[0].value.from);
       const entryId = req.body.entry[0].id;
       switch (entryId) {
         case "101090595820826":
-          const { post_id, comment_id, parent_id, message } =
-            req.body.entry[0].changes[0].value;
-          console.log(comment_id);
-          if (post_id === parent_id) {
-            //還沒有公開回覆
-            const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
-            // await PublicReply(comment_id, replyMessage);
-            // const secretReply = MessagesUrlGenerate(message);
-            // await SecretReply(comment_id, secretReply);
+          if (entry.changes !== undefined) {
+            const { post_id, comment_id, parent_id, message, verb } =
+              entry.changes[0].value;
+            console.log(comment_id);
+            if (post_id === parent_id && verb === "add") {
+              // console.log(message);
+              const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
+              const publicReply = await PublicReply(comment_id, replyMessage);
+              const secretReplyMessage = MessagesUrlGenerate(message);
+              const secretReply = await SecretReply(
+                comment_id,
+                secretReplyMessage,
+                message
+              );
+              Promise.all([publicReply, secretReply]);
+            }
+          } else if (entry.messaging !== undefined) {
+            console.log(entry.messaging[0]);
           }
-          // PublicReply(comment_id, replyMessage);
           break;
         case "733025400791073":
           console.log("波頭君");
@@ -90,7 +99,7 @@ router.post("/webhook", async (req, res) => {
           break;
       }
     } catch (e) {
-      console.log(e);
+      console.log("錯誤訊息 : ", e);
     }
   }
   // console.log("message", body.entry[0].messaging[0]);

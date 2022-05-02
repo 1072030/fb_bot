@@ -76,17 +76,29 @@ const PublicReply = async (commitId, message) => {
   return data;
 };
 //這個function是私訊貼文下方留言的顧客
-const SecretReply = async (commitId, message) => {
+const SecretReply = async (commitId, message, originalMessage) => {
   const data = await axios({
     method: "post",
-    url: `https://graph.facebook.com/v12.0/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/v13.0/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
     data: {
-      message_type: "text",
       recipient: {
         comment_id: commitId,
       },
       message: {
-        text: message,
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: `您的預購商品網址已建立，點選按鈕即可前往`,
+            buttons: [
+              {
+                type: "web_url",
+                title: "前往網站",
+                url: message,
+              },
+            ],
+          },
+        },
       },
     },
     headers: {
