@@ -74,11 +74,13 @@ router.post("/webhook", async (req, res) => {
           if (entry.changes !== undefined) {
             const { post_id, comment_id, parent_id, message, verb } =
               entry.changes[0].value;
+            console.log("changes", req.body.entry[0].changes);
+            console.log("from", req.body.entry[0].changes[0].value.from);
             console.log(comment_id);
             if (post_id === parent_id && verb === "add") {
               // console.log(message);
               const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
-              const publicReply = await PublicReply(comment_id, replyMessage);
+              // const publicReply = await PublicReply(comment_id, replyMessage);
               const secretReplyMessage = MessagesUrlGenerate(message);
               const secretReply = await SecretReply(
                 comment_id,
