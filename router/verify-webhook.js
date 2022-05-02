@@ -87,7 +87,7 @@ router.post("/webhook", async (req, res) => {
                 secretReplyMessage,
                 message
               );
-              Promise.all(secretReply);
+              // Promise.all(secretReply);
             }
           } else if (entry.messaging !== undefined) {
             console.log(entry.messaging[0]);
