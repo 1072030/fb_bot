@@ -26,7 +26,7 @@ const MessagesUrlGenerate = (
   //利用+1來分割
   let obj = [];
   let uri = "";
-  let goods = "";
+  let goodsReply = "";
   let contentArr;
   if (message.includes("，")) {
     contentArr = message.split("，");
@@ -50,7 +50,7 @@ const MessagesUrlGenerate = (
       });
     }
   });
-  goods = obj.map((x) => {
+  goodsReply = obj.map((x) => {
     return `品項:${x.item} 數量:${x.quantity}\n`;
   });
   uri = "http://localhost:8080/api/order/fb?";
@@ -76,7 +76,7 @@ const MessagesUrlGenerate = (
 
   console.log(uri);
   uri = encodeURI(uri);
-  return { uri, goods };
+  return { uri, goodsReply };
 };
 const postMessageAnalyze = (message) => {
   let contentArr = [];
