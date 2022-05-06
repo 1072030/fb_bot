@@ -89,12 +89,12 @@ const SecretReply = async (commitId, message) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `您的預購商品網址已建立，點選按鈕即可前往`,
+            text: `您的預購商品網址已建立，點選按鈕即可前往\n${message.goods}`,
             buttons: [
               {
                 type: "web_url",
                 title: "前往網站",
-                url: message,
+                url: message.uri,
               },
             ],
           },
