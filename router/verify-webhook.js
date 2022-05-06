@@ -74,7 +74,7 @@ router.post("/webhook", async (req, res) => {
       switch (entryId) {
         case "101090595820826":
           if (entry.changes !== undefined) {
-            const { post_id, comment_id, parent_id, message, verb } =
+            const { post_id, comment_id, parent_id, message, verb, from } =
               entry.changes[0].value;
             console.log("changes", req.body.entry[0].changes);
             console.log("from", req.body.entry[0].changes[0].value.from);
@@ -86,7 +86,10 @@ router.post("/webhook", async (req, res) => {
               const serialNumber = parseInt(
                 postComments.data.summary.total_count
               ); //流水號
-              const publicReply = await PublicReply(comment_id, serialNumber);
+              const publicReply = await PublicReply(
+                comment_id,
+                `@${from.name} ${serialNumber}`
+              );
               const postContent = await PublicPostSearch(post_id);
               const deliveryDate = postMessageAnalyze(postContent); //取得貼文內的日期
               const secretReplyMessage = MessagesUrlGenerate(
