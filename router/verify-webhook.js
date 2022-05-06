@@ -6,11 +6,14 @@ const {
   PublicRead,
   PublicReply,
   SecretReply,
+  newOrder,
+  PublicPostSearch,
 } = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
 const {
   messageAnalyze,
   MessagesUrlGenerate,
+  postMessageAnalyze,
 } = require("../service/message-analyze");
 const { orderPrice } = require("../service/order-price");
 const router = express.Router();
@@ -78,19 +81,32 @@ router.post("/webhook", async (req, res) => {
             console.log("from", req.body.entry[0].changes[0].value.from);
             console.log(comment_id);
             if (post_id === parent_id && verb === "add") {
-              // console.log(message);
-              // const replyMessage = "小編已私訊您，請查看私人訊息呦 :)";
-              // const publicReply = await PublicReply(comment_id, replyMessage);
-              const secretReplyMessage = MessagesUrlGenerate(message);
+              //verb === 'add' 代表為新增留言
+              const postComments = await PublicRead(post_id);
+
+              const serialNumber =
+                (parseInt(postComments.data.summary.total_count) + 1) / 2; //流水號
+              const publicReply = await PublicReply(comment_id, serialNumber);
+              const postContent = await PublicPostSearch(post_id);
+              const deliveryDate = postMessageAnalyze(postContent); //取得貼文內的日期
+              const secretReplyMessage = MessagesUrlGenerate(
+                message,
+                deliveryDate,
+                serialNumber
+              );
               const secretReply = await SecretReply(
                 comment_id,
-                secretReplyMessage,
-                message
+                secretReplyMessage
               );
-              // Promise.all(secretReply);
+              Promise.all([
+                postComments,
+                publicReply,
+                postContent,
+                secretReply,
+              ]);
             }
           } else if (entry.messaging !== undefined) {
-            console.log(entry.messaging[0]);
+            console.log("messaging", entry.messaging[0]);
           }
           break;
         case "733025400791073":

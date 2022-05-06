@@ -14,7 +14,7 @@ const messageAnalyze = (message) => {
   });
   return { content, location };
 };
-const MessagesUrlGenerate = (message) => {
+const MessagesUrlGenerate = (message, deliveryDate, serialNumber) => {
   //利用換行
   //利用井號 #
   //利用ABC
@@ -26,6 +26,8 @@ const MessagesUrlGenerate = (message) => {
     contentArr = message.split("，");
   } else if (message.includes("\n")) {
     contentArr = message.split("\n");
+  } else if (message.includes("、")) {
+    contentArr = message.split("、");
   }
   contentArr.map((x) => {
     const goods = x.split("+");
@@ -59,24 +61,28 @@ const MessagesUrlGenerate = (message) => {
       uri = uri.concat(`${obj[i].quantity},`);
     }
   }
+  uri = uri.concat(`&note=${serialNumber}`);
+  uri = uri.concat(`&deliveryDate=${deliveryDate}`);
   console.log(uri);
   return uri;
-  // if (obj.length !== 0) {
-  //   let content = '下單成功 !\n';
-  //   for (let i = 0; i < obj.length; i++) {
-  //     if (i == obj.length - 1) {
-  //       content = content.concat(
-  //         `品項:${obj[i].item}，數量:${obj[i].quantity}個。`,
-  //       );
-  //     } else {
-  //       content = content.concat(
-  //         `品項:${obj[i].item}，數量:${obj[i].quantity}個\n`,
-  //       );
-  //     }
-  //   }
-  //   return content;
-  // } else {
-  //   return 'cannot get your message ! Please try again';
-  // }
 };
-module.exports = { messageAnalyze, MessagesUrlGenerate };
+const postMessageAnalyze = (message) => {
+  let contentArr = [];
+  contentArr = message.split("取貨");
+  contentArr[0] = contentArr[0].replace(/#/g, "");
+  contentArr[0] = contentArr[0].split("週")[0];
+  // contentArr[0] = X月 X 號
+  const time = contentArr[0].split("月");
+  let year;
+  const month = time[0];
+  const date = time[1];
+  const now = new Date();
+  if (now.getMonth() + 1 > month) {
+    year = now.getFullYear() + 1;
+  } else {
+    year = now.getFullYear();
+  }
+  const deliveryDate = new Date(year, parseInt(month) - 1, parseInt(date));
+  return deliveryDate;
+};
+module.exports = { messageAnalyze, MessagesUrlGenerate, postMessageAnalyze };

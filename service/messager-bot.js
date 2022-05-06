@@ -39,14 +39,14 @@ const PublicSearch = async () => {
 const PublicRead = async (post_id) => {
   const data = await axios({
     method: "get",
-    url: `https://graph.facebook.com/v12.0/${post_id}/comments?order=reverse_chronological&filter=toplevel&access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/v12.0/${post_id}/comments?summary=1&filter=stream&order=chronological&access_token=${process.env.ACCESS_TOKEN}`,
     headers: {
       "Content-Type": "application/json",
     },
   })
     .then((res) => {
       //console.log("All_reply", res.data.data);
-      return res.data.data;
+      return res;
     })
     .catch((err) => {
       console.log(err);
@@ -76,7 +76,7 @@ const PublicReply = async (commitId, message) => {
   return data;
 };
 //這個function是私訊貼文下方留言的顧客
-const SecretReply = async (commitId, message, originalMessage) => {
+const SecretReply = async (commitId, message) => {
   const data = await axios({
     method: "post",
     url: `https://graph.facebook.com/v13.0/me/messages?access_token=${process.env.ACCESS_TOKEN}`,
@@ -113,10 +113,39 @@ const SecretReply = async (commitId, message, originalMessage) => {
     });
   return data;
 };
+const PublicPostSearch = async (post_id) => {
+  const data = await axios({
+    method: "get",
+    url: `https://graph.facebook.com/v13.0/${post_id}?access_token=${process.env.ACCESS_TOKEN}`,
+  })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return data.message;
+};
+const newOrder = async (deliveryDate) => {
+  const data = await axios({
+    method: "post",
+    url: "https://freshfood.ecs-liff.bots.tw/api/order/blank",
+    data: deliveryDate,
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return data;
+};
 module.exports = {
   replyMessager,
   PublicSearch,
   PublicRead,
   PublicReply,
+  PublicPostSearch,
   SecretReply,
+  newOrder,
 };
