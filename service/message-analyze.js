@@ -44,7 +44,7 @@ const MessagesUrlGenerate = (message, deliveryDate, serialNumber) => {
       });
     }
   });
-  uri = "https://freshfood.ecs-liff.bots.tw/api/order/fb?";
+  uri = "http://localhost:8080/api/order/fb?";
   uri = uri.concat("items=");
   for (let i = 0; i < obj.length; i++) {
     if (i == obj.length - 1) {
