@@ -66,9 +66,11 @@ const MessagesUrlGenerate = (
       uri = uri.concat(`${obj[i].quantity},`);
     }
   }
-  uri = uri.concat(`&note=${serialNumber}`);
-  uri = uri.concat(`&deliveryDate=${deliveryDate}`);
-  uri = uri.concat(`&commentId=${commentId}`);
+  uri = uri.concat(
+    `&note=${serialNumber}&deliveryDate=${deliveryDate}&commentId=${commentId}`
+  );
+
+  console.log(uri);
   uri = encodeURI(uri);
   return uri;
 };
