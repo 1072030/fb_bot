@@ -63,7 +63,7 @@ const MessagesUrlGenerate = (message, deliveryDate, serialNumber) => {
   }
   uri = uri.concat(`&note=${serialNumber}`);
   uri = uri.concat(`&deliveryDate=${deliveryDate}`);
-  console.log(uri);
+  uri = encodeURI(uri);
   return uri;
 };
 const postMessageAnalyze = (message) => {
