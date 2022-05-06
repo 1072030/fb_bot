@@ -88,14 +88,15 @@ router.post("/webhook", async (req, res) => {
               ); //流水號
               const publicReply = await PublicReply(
                 comment_id,
-                `${from.name},${serialNumber}`
+                `${serialNumber}`
               );
               const postContent = await PublicPostSearch(post_id);
               const deliveryDate = postMessageAnalyze(postContent); //取得貼文內的日期
               const secretReplyMessage = MessagesUrlGenerate(
                 message,
                 deliveryDate,
-                serialNumber
+                serialNumber,
+                comment_id
               );
               const secretReply = await SecretReply(
                 comment_id,

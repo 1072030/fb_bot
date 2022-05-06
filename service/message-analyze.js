@@ -14,7 +14,12 @@ const messageAnalyze = (message) => {
   });
   return { content, location };
 };
-const MessagesUrlGenerate = (message, deliveryDate, serialNumber) => {
+const MessagesUrlGenerate = (
+  message,
+  deliveryDate,
+  serialNumber,
+  commentId
+) => {
   //利用換行
   //利用井號 #
   //利用ABC
@@ -63,6 +68,7 @@ const MessagesUrlGenerate = (message, deliveryDate, serialNumber) => {
   }
   uri = uri.concat(`&note=${serialNumber}`);
   uri = uri.concat(`&deliveryDate=${deliveryDate}`);
+  uri = uri.concat(`&commentId=${commentId}`);
   uri = encodeURI(uri);
   return uri;
 };
