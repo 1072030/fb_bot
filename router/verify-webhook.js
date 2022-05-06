@@ -14,7 +14,7 @@ const {
   MessagesUrlGenerate,
   postMessageAnalyze,
 } = require("../service/message-analyze");
-const { orderPrice } = require("../service/order-price");
+// const { orderPrice } = require("../service/order-price");
 const router = express.Router();
 require("dotenv").config();
 router.get("/webhook", (req, res) => {
@@ -76,9 +76,9 @@ router.post("/webhook", async (req, res) => {
           if (entry.changes !== undefined) {
             const { post_id, comment_id, parent_id, message, verb, from } =
               entry.changes[0].value;
-            console.log("changes", req.body.entry[0].changes);
-            console.log("from", req.body.entry[0].changes[0].value.from);
-            console.log(comment_id);
+            // console.log("changes", req.body.entry[0].changes);
+            // console.log("from", req.body.entry[0].changes[0].value.from);
+            // console.log(comment_id);
             if (post_id === parent_id && verb === "add") {
               //verb === 'add' 代表為新增留言
               const postComments = await PublicRead(post_id);
