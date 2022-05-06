@@ -31,7 +31,7 @@ const MessagesUrlGenerate = (
     contentArr = message.split("，");
   } else if (message.includes("\n")) {
     contentArr = message.split("\n");
-  } else if (message.includes("、")) {
+  } else {
     contentArr = message.split("、");
   }
   contentArr.map((x) => {
