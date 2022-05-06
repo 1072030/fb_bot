@@ -45,7 +45,7 @@ const MessagesUrlGenerate = (message, deliveryDate, serialNumber) => {
     }
   });
   uri = "http://localhost:8080/api/order/fb?";
-  uri = uri.concat("items=");
+  uri = uri.concat("item=");
   for (let i = 0; i < obj.length; i++) {
     if (i == obj.length - 1) {
       uri = uri.concat(`${obj[i].item}`);
