@@ -39,7 +39,7 @@ const PublicSearch = async () => {
 const PublicRead = async (post_id) => {
   const data = await axios({
     method: "get",
-    url: `https://graph.facebook.com/v12.0/${post_id}/comments?summary=1&filter=stream&order=chronological&access_token=${process.env.ACCESS_TOKEN}`,
+    url: `https://graph.facebook.com/v12.0/${post_id}/comments?summary=1&filter=toplevel&order=chronological&access_token=${process.env.ACCESS_TOKEN}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -126,20 +126,6 @@ const PublicPostSearch = async (post_id) => {
     });
   return data.message;
 };
-const newOrder = async (deliveryDate) => {
-  const data = await axios({
-    method: "post",
-    url: "https://freshfood.ecs-liff.bots.tw/api/order/blank",
-    data: deliveryDate,
-  })
-    .then((res) => {
-      return res;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  return data;
-};
 module.exports = {
   replyMessager,
   PublicSearch,
@@ -147,5 +133,4 @@ module.exports = {
   PublicReply,
   PublicPostSearch,
   SecretReply,
-  newOrder,
 };

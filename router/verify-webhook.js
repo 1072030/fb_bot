@@ -6,7 +6,6 @@ const {
   PublicRead,
   PublicReply,
   SecretReply,
-  newOrder,
   PublicPostSearch,
 } = require("../service/messager-bot");
 const { firestore } = require("../config/firestore");
@@ -84,8 +83,9 @@ router.post("/webhook", async (req, res) => {
               //verb === 'add' 代表為新增留言
               const postComments = await PublicRead(post_id);
 
-              const serialNumber =
-                (parseInt(postComments.data.summary.total_count) + 1) / 2; //流水號
+              const serialNumber = parseInt(
+                postComments.data.summary.total_count
+              ); //流水號
               const publicReply = await PublicReply(comment_id, serialNumber);
               const postContent = await PublicPostSearch(post_id);
               const deliveryDate = postMessageAnalyze(postContent); //取得貼文內的日期
