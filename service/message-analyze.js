@@ -53,7 +53,7 @@ const MessagesUrlGenerate = (
   goodsReply = obj.map((x) => {
     return `品項:${x.item} 數量:${x.quantity}\n`;
   });
-  goodsReply = goodsReply.replace(/,/g, "");
+  // goodsReply = goodsReply.replace(/,/g, "");
   console.log(goodsReply);
   uri = "http://localhost:8080/api/order/fb?";
   uri = uri.concat("item=");
