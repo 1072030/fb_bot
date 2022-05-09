@@ -76,8 +76,8 @@ router.post("/webhook", async (req, res) => {
           if (entry.changes !== undefined) {
             const { post_id, comment_id, parent_id, message, verb, from } =
               entry.changes[0].value;
-            // console.log("changes", req.body.entry[0].changes);
-            // console.log("from", req.body.entry[0].changes[0].value.from);
+            console.log("changes", req.body.entry[0].changes);
+            console.log("from", req.body.entry[0].changes[0].value.from);
             // console.log(comment_id);
             if (post_id === parent_id && verb === "add") {
               //verb === 'add' 代表為新增留言
