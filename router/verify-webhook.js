@@ -81,33 +81,23 @@ router.post("/webhook", async (req, res) => {
             // console.log(comment_id);
             if (post_id === parent_id && verb === "add") {
               //verb === 'add' 代表為新增留言
-              const postComments = await PublicRead(post_id);
-
-              const serialNumber = parseInt(
-                postComments.data.summary.total_count
-              ); //流水號
+              const publicReplyMessage = "感謝您的訂購，請查看私人訊息呦 !";
               const publicReply = await PublicReply(
                 comment_id,
-                `${serialNumber}`
+                `${publicReplyMessage}`
               );
               const postContent = await PublicPostSearch(post_id);
               const deliveryDate = postMessageAnalyze(postContent); //取得貼文內的日期
               const secretReplyMessage = MessagesUrlGenerate(
                 message,
                 deliveryDate,
-                serialNumber,
                 comment_id
               );
               const secretReply = await SecretReply(
                 comment_id,
                 secretReplyMessage
               );
-              Promise.all([
-                postComments,
-                publicReply,
-                postContent,
-                secretReply,
-              ]);
+              Promise.all([publicReply, postContent, secretReply]);
             }
           } else if (entry.messaging !== undefined) {
             console.log("messaging", entry.messaging[0]);

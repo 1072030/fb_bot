@@ -17,7 +17,7 @@ const messageAnalyze = (message) => {
 const MessagesUrlGenerate = (
   message,
   deliveryDate,
-  serialNumber,
+
   commentId
 ) => {
   //利用換行
@@ -72,9 +72,7 @@ const MessagesUrlGenerate = (
       uri = uri.concat(`${obj[i].quantity},`);
     }
   }
-  uri = uri.concat(
-    `&note=${serialNumber}&deliveryDate=${deliveryDate}&commentId=${commentId}`
-  );
+  uri = uri.concat(`&deliveryDate=${deliveryDate}&commentId=${commentId}`);
 
   console.log(uri);
   uri = encodeURI(uri);
