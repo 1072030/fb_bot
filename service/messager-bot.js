@@ -115,7 +115,7 @@ const SecretReply = async (commitId, message) => {
 };
 const PublicPostSearch = async (post_id) => {
   const data = await axios({
-    method: "get",
+    method: "GET",
     url: `https://graph.facebook.com/v13.0/${post_id}?access_token=${process.env.ACCESS_TOKEN}`,
   })
     .then((res) => {
@@ -124,7 +124,7 @@ const PublicPostSearch = async (post_id) => {
     .catch((e) => {
       console.log(e);
     });
-  return data.message;
+  return data;
 };
 module.exports = {
   replyMessager,

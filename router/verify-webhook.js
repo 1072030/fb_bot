@@ -87,7 +87,8 @@ router.post("/webhook", async (req, res) => {
                 `${publicReplyMessage}`
               );
               const postContent = await PublicPostSearch(post_id);
-              const deliveryDate = postMessageAnalyze(postContent); //取得貼文內的日期
+
+              const deliveryDate = postMessageAnalyze(postContent.message); //取得貼文內的日期
               const secretReplyMessage = MessagesUrlGenerate(
                 message,
                 deliveryDate,
