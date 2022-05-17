@@ -50,12 +50,16 @@ const MessagesUrlGenerate = (
       });
     }
   });
-  goodsReply = obj.map((x) => {
-    return `品項:${x.item} 數量:${x.quantity}\n`;
-  });
-  goodsReply = goodsReply.toString();
-  goodsReply = goodsReply.replace(/,/g, "");
-  console.log(goodsReply);
+  // goodsReply = obj.map((x) => {
+  //   return `品項:${x.item} 數量:${x.quantity}\n`;
+  // });
+
+  for (let i in obj) {
+    let temp = `品項:${i.item} 數量:${i.quantity}\n`;
+    goodsReply = goodsReply.concat("", temp);
+  }
+  // goodsReply = goodsReply.replace(/,/g, "");
+  console.log(62, goodsReply);
   uri = "http://localhost:8080/api/order/fb?";
   uri = uri.concat("item=");
   for (let i = 0; i < obj.length; i++) {
